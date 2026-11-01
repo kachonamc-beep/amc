@@ -1,7 +1,7 @@
 /* AMC app — ตัวช่วยให้ติดตั้งเป็นแอปได้ + เปิดหน้าเปลือกได้ตอนเน็ตหลุด
  * แตะเฉพาะไฟล์ของแอปนี้เอง (โดเมนเดียวกัน) · ไม่แตะ/ไม่เก็บอะไรของ hub หรือห้องอื่น
  * เปลี่ยนไฟล์แอปเมื่อไหร่ ให้เพิ่มเลข VERSION 1 ครั้ง */
-const VERSION = 'amc-app-v4';
+const VERSION = 'amc-app-v3';
 const SHELL = [
   './',
   './index.html',
@@ -9,8 +9,7 @@ const SHELL = [
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png',
-  './icons/logo.png',
-  './intro.wav'
+  './icons/logo.png'
 ];
 
 self.addEventListener('install', (e) => {
