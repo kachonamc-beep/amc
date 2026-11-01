@@ -8,6 +8,7 @@
 <meta name="description" content="แอปพนักงาน บจก.อมรสินเจริญ">
 <meta name="theme-color" content="#0B2A5B">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -59,7 +60,7 @@
     padding:calc(var(--st) + 64px) 16px calc(var(--sb) + 64px);overflow:hidden;transition:opacity .45s ease}
   #intro.out{opacity:0;pointer-events:none}
   .i-top{text-align:center}
-  .i-t1{font:900 clamp(17px,5.4vw,28px)/1.15 'Arial Black',Impact,'Segoe UI',sans-serif;letter-spacing:.12em;color:var(--yel);
+  .i-t1{font:400 clamp(26px,8.8vw,44px)/1.2 'Kaushan Script','Segoe Script','Brush Script MT',cursive;letter-spacing:0;color:var(--yel);white-space:nowrap;
     text-shadow:0 0 18px rgba(255,198,30,.55),0 3px 0 #7A5A00;opacity:0}
   .i-t2{margin-top:12px;font:700 clamp(10px,3vw,13px)/1.4 'Segoe UI',Arial,sans-serif;letter-spacing:.3em;color:#CFE0FF;opacity:0}
   .i-logo{width:min(58vw,240px);height:auto;opacity:0}
@@ -92,7 +93,7 @@
 
 <!-- อินโทรตอนเปิดแอป (เฉพาะแอปที่ติดตั้ง · ทดสอบในเบราว์เซอร์ใส่ ?intro=1) · แตะเพื่อข้าม -->
 <div id="intro" class="hide" aria-hidden="true">
-  <div class="i-top"><div class="i-t1">APPLICATION FOR 2027</div><div class="i-t2">EVOLVED · READY FOR ANYTHING</div></div>
+  <div class="i-top"><div class="i-t1">Application for 2027</div><div class="i-t2">EVOLVED · READY FOR ANYTHING</div></div>
   <img class="i-logo" src="icons/logo.png" alt="">
   <div class="i-bot">AMC POWER TOOLS</div>
   <div class="i-flash"></div>
@@ -152,7 +153,7 @@
 
   <button class="btn ghost" id="b-skip" type="button">ใช้ในเบราว์เซอร์ไปก่อน</button>
   <div class="note">ติดตั้งครั้งเดียว ต่อไปกดไอคอน AMC APP HUB ได้เลย · เปิดเต็มจอเหมือนแอปทั่วไป · ข้อมูลอัปเดตเองทุกครั้งที่เปิด</div>
-  <div class="ver">AMC APP HUB v4</div>
+  <div class="ver">AMC APP HUB v5</div>
 </div>
 
 <script>
@@ -263,7 +264,7 @@
     (function tick() {
       if (done) return;
       var t = Date.now() - start, playing = au && !au.paused && !au.ended;
-      if (t >= 5000 || (t >= 2800 && !playing)) end(); else setTimeout(tick, 150);
+      if (t >= 5500 || (t >= 2800 && !playing)) end(); else setTimeout(tick, 150);
     })();
   }
 
