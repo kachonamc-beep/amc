@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<!-- AMC app (1/11/2569) — เปลือกแอปมือถือ ห่อ "AMC ห้องรวมศูนย์" (hub) · ไม่แตะโค้ด hub · ถอย = ลบโฟลเดอร์นี้ออกจากเว็บ -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AMC อมรสินเจริญ</title>
+<meta name="description" content="แอปพนักงาน บจก.อมรสินเจริญ">
+<meta name="theme-color" content="#0B2A5B">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AMC">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+  :root{
+    --navy:#0B2A5B; --navy2:#123A78; --yel:#FFC61E; --yeld:#E0A800;
+    --card:#E8F1FA; --ink:#12233F; --mut:#475569;
+    --st:env(safe-area-inset-top,0px); --sb:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--navy);color:#fff;
+    font-family:"Sarabun","Noto Sans Thai","Leelawadee UI",Tahoma,sans-serif;
+    -webkit-text-size-adjust:100%;overflow:hidden}
+  #frame{position:fixed;left:0;right:0;top:var(--st);bottom:0;width:100%;height:calc(100% - var(--st));
+    border:0;background:#77A4DA;display:none}
+  .screen{position:fixed;inset:0;padding:calc(var(--st) + 24px) 16px calc(var(--sb) + 24px);
+    display:flex;flex-direction:column;align-items:center;overflow-y:auto}
+  .hide{display:none!important}
+  /* หน้าโหลด */
+  #splash{justify-content:center;gap:18px}
+  #splash img{width:132px;height:auto}
+  .spin{width:34px;height:34px;border-radius:50%;border:4px solid rgba(255,255,255,.25);border-top-color:var(--yel);animation:r 1s linear infinite}
+  @keyframes r{to{transform:rotate(360deg)}}
+  .msg{font-size:17px;line-height:1.6;text-align:center;max-width:420px}
+  .sub{font-size:15px;color:#C9D6EA}
+  /* หน้าแนะนำติดตั้ง */
+  #guide{gap:16px}
+  #guide .logo{width:104px;height:auto;margin-top:8px}
+  h1{font-size:23px;line-height:1.5;margin:0;text-align:center}
+  .card{background:var(--card);color:var(--ink);border-radius:16px;padding:18px 16px;width:100%;max-width:440px}
+  .card h2{font-size:18px;line-height:1.5;margin:0 0 10px;color:var(--navy)}
+  ol{margin:0;padding-left:24px}
+  li{font-size:17px;line-height:1.65;margin:6px 0}
+  b.k{background:var(--navy);color:#fff;border-radius:8px;padding:1px 8px;font-weight:600;white-space:nowrap}
+  .btn{display:flex;align-items:center;justify-content:center;width:100%;max-width:440px;min-height:52px;
+    border:0;border-radius:14px;font:inherit;font-size:18px;font-weight:700;cursor:pointer;text-decoration:none;
+    padding:10px 16px;white-space:nowrap}
+  .btn.main{background:var(--yel);color:var(--navy)}
+  .btn.main:active{background:var(--yeld)}
+  .btn.ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.55);font-weight:600}
+  .note{font-size:14px;line-height:1.6;color:#C9D6EA;text-align:center;max-width:440px}
+  .ver{font-size:12px;color:#8FA6C8;margin-top:auto;padding-top:8px}
+</style>
+</head>
+<body>
+
+<iframe id="frame" title="AMC ห้องรวมศูนย์"
+  allow="camera; microphone; geolocation; clipboard-read; clipboard-write; fullscreen"></iframe>
+
+<!-- หน้าโหลด / เน็ตหลุด -->
+<div id="splash" class="screen hide">
+  <img src="icons/logo.png" alt="AMC อมรสินเจริญ">
+  <div class="spin" id="spin"></div>
+  <div class="msg" id="smsg">กำลังเปิดห้องรวมศูนย์…</div>
+  <button class="btn main hide" id="retry" type="button">ลองใหม่</button>
+</div>
+
+<!-- หน้าแนะนำติดตั้ง (โชว์เฉพาะตอนเปิดในเบราว์เซอร์ ไม่โชว์ในแอปที่ติดตั้งแล้ว) -->
+<div id="guide" class="screen hide">
+  <img class="logo" src="icons/logo.png" alt="AMC อมรสินเจริญ">
+  <h1>ติดตั้งแอป AMC ลงมือถือ</h1>
+
+  <!-- เปิดจากใน LINE / Facebook -->
+  <div class="card hide" id="g-inapp">
+    <h2>ตอนนี้เปิดอยู่ในแอป LINE</h2>
+    <ol>
+      <li>กดปุ่มเหลืองด้านล่าง เพื่อเปิดในเบราว์เซอร์</li>
+      <li>ถ้าไม่เด้ง ให้กด <b class="k">•••</b> มุมขวาบน แล้วเลือก <b class="k">เปิดในเบราว์เซอร์</b></li>
+    </ol>
+  </div>
+  <a class="btn main hide" id="b-external" href="#">เปิดในเบราว์เซอร์</a>
+
+  <!-- iPhone Safari -->
+  <div class="card hide" id="g-ios">
+    <h2>iPhone · 3 ขั้น</h2>
+    <ol>
+      <li>กดปุ่มแชร์ <b class="k">⬆︎</b> (สี่เหลี่ยมมีลูกศรชี้ขึ้น) แถบล่างหรือแถบบน</li>
+      <li>เลื่อนลง กด <b class="k">เพิ่มไปยังหน้าจอโฮม</b></li>
+      <li>กด <b class="k">เพิ่ม</b> มุมขวาบน · ไอคอน AMC จะอยู่บนหน้าจอ</li>
+    </ol>
+  </div>
+  <!-- iPhone Chrome -->
+  <div class="card hide" id="g-ioschrome">
+    <h2>iPhone (Chrome) · 3 ขั้น</h2>
+    <ol>
+      <li>กดปุ่มแชร์ <b class="k">⬆︎</b> ในช่องลิงก์ด้านบน</li>
+      <li>เลือก <b class="k">เพิ่มไปยังหน้าจอโฮม</b></li>
+      <li>กด <b class="k">เพิ่ม</b> · ถ้าไม่มีเมนูนี้ ให้เปิดลิงก์เดิมใน Safari แทน</li>
+    </ol>
+  </div>
+  <!-- Android -->
+  <button class="btn main hide" id="b-install" type="button">ติดตั้งแอป AMC</button>
+  <div class="card hide" id="g-android">
+    <h2>Android · 2 ขั้น</h2>
+    <ol>
+      <li>กด <b class="k">⋮</b> มุมขวาบนของ Chrome</li>
+      <li>เลือก <b class="k">ติดตั้งแอป</b> หรือ <b class="k">เพิ่มลงในหน้าจอหลัก</b> แล้วกด <b class="k">ติดตั้ง</b></li>
+    </ol>
+  </div>
+
+  <button class="btn ghost" id="b-skip" type="button">ใช้ในเบราว์เซอร์ไปก่อน</button>
+  <div class="note">ติดตั้งครั้งเดียว ต่อไปกดไอคอน AMC ได้เลย · เปิดเต็มจอเหมือนแอปทั่วไป · ข้อมูลอัปเดตเองทุกครั้งที่เปิด</div>
+  <div class="ver">AMC app v2</div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  // ลิงก์ /exec ของ hub (deployment เดิม · ห้ามเปลี่ยนถ้า hub ไม่ได้ย้าย deployment)
+  var HUB_URL = 'https://script.google.com/macros/s/AKfycbyosWGr5i4USMScj371fULS0A9xm86LhIwG1_HRQ1K_SgxNmb4QIozodcMNHEnd_Hxvaw/exec';
+  var LOAD_TIMEOUT_MS = 25000;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var show = function (id) { $(id).classList.remove('hide'); };
+  var hide = function (id) { $(id).classList.add('hide'); };
+  var ua = navigator.userAgent || '';
+
+  var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var isAndroid = /Android/i.test(ua);
+  var isLine = /\bLine\//i.test(ua);
+  var isInApp = isLine || /FBAN|FBAV|Instagram|Messenger/i.test(ua);
+  var isIOSChrome = isIOS && /CriOS/i.test(ua);
+  var isMobile = isIOS || isAndroid;
+
+  // ส่งต่อพารามิเตอร์ที่ hub รับ (?go= ?back= ?from=) · hub ตรวจรูปแบบเองอีกชั้น
+  function hubSrc() {
+    var p = new URLSearchParams(location.search), out = new URLSearchParams();
+    ['go', 'back', 'from'].forEach(function (k) { if (p.get(k)) out.set(k, p.get(k)); });
+    var q = out.toString();
+    return HUB_URL + (q ? '?' + q : '');
+  }
+
+  // ---------- เปิด hub ในกรอบเต็มจอ ----------
+  var timer = null, opened = false;
+  function openHub() {
+    hide('guide');
+    if (!navigator.onLine) { offline(); return; }
+    show('splash'); show('spin'); hide('retry');
+    $('smsg').textContent = 'กำลังเปิดห้องรวมศูนย์…';
+    var f = $('frame');
+    f.onload = function () {
+      if (!f.getAttribute('src')) return;
+      clearTimeout(timer); hide('splash'); f.style.display = 'block'; opened = true;
+    };
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      if (opened) return;
+      hide('spin'); show('retry');
+      $('smsg').innerHTML = 'เน็ตช้า เปิดไม่ขึ้น<br><span class="sub">เช็กสัญญาณแล้วกด "ลองใหม่"</span>';
+    }, LOAD_TIMEOUT_MS);
+    f.setAttribute('src', hubSrc());
+  }
+  function offline() {
+    show('splash'); hide('spin'); show('retry');
+    $('smsg').innerHTML = 'ไม่มีอินเทอร์เน็ต<br><span class="sub">ต่อเน็ตหรือ Wi-Fi แล้วกด "ลองใหม่"</span>';
+  }
+  $('retry').onclick = function () { opened = false; $('frame').style.display = 'none'; $('frame').removeAttribute('src'); openHub(); };
+  window.addEventListener('online', function () { if (!opened && !$('splash').classList.contains('hide')) $('retry').onclick(); });
+
+  // ---------- หน้าแนะนำติดตั้ง ----------
+  var deferred = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); deferred = e;
+    if (!isIOS && !isInApp && !$('guide').classList.contains('hide')) { show('b-install'); }
+  });
+  window.addEventListener('appinstalled', function () {
+    hide('b-install'); hide('g-android');
+    $('b-skip').textContent = 'ติดตั้งแล้ว · เปิดใช้งาน';
+  });
+  $('b-install').onclick = function () {
+    if (!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.then(function () { deferred = null; hide('b-install'); });
+  };
+  $('b-skip').onclick = function () {
+    try { sessionStorage.setItem('amc_skip_guide', '1'); } catch (e) {}
+    openHub();
+  };
+
+  function showGuide() {
+    show('guide');
+    if (isInApp) {
+      show('g-inapp'); show('b-external');
+      var u = new URL(location.href); u.searchParams.set('openExternalBrowser', '1');   // LINE เปิดเบราว์เซอร์นอกให้เอง
+      $('b-external').href = u.toString();
+      return;
+    }
+    if (isIOSChrome) show('g-ioschrome');
+    else if (isIOS) show('g-ios');
+    else if (isAndroid) { show('g-android'); if (deferred) show('b-install'); }
+  }
+
+  // ---------- เริ่ม ----------
+  var skipped = false;
+  try { skipped = sessionStorage.getItem('amc_skip_guide') === '1'; } catch (e) {}
+  if (isStandalone || !isMobile || skipped) openHub();
+  else showGuide();
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  }
+})();
+</script>
+</body>
+</html>

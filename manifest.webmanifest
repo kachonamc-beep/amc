@@ -1,0 +1,18 @@
+{
+  "id": "./",
+  "name": "AMC อมรสินเจริญ",
+  "short_name": "AMC",
+  "description": "แอปพนักงาน บจก.อมรสินเจริญ (AMC Power Tools) — เข้าห้องรวมศูนย์",
+  "lang": "th",
+  "start_url": "./?src=app",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B2A5B",
+  "theme_color": "#0B2A5B",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
