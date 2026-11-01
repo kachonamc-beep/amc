@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "AMC อมรสินเจริญ",
-  "short_name": "AMC",
+  "name": "AMC APP HUB",
+  "short_name": "AMC APP HUB",
   "description": "แอปพนักงาน บจก.อมรสินเจริญ (AMC Power Tools) — เข้าห้องรวมศูนย์",
   "lang": "th",
   "start_url": "./?src=app",
